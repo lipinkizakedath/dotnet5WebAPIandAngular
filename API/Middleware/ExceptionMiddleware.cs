@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace API.Interfaces
+namespace API.Middleware
 {
     public class ExceptionMiddleware
     {
