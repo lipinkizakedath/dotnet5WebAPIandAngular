@@ -1,0 +1,46 @@
+<div class="row m-5">
+  <div class="container text-center">
+    <ng-container *ngIf="errortype.match('not-found')">
+      <img
+        src="https://cdn.iconscout.com/icon/free/png-256/page-not-found-5-530376.png"
+        alt=""
+      />
+      <h5 class="text-info" style="font-weight: 400">
+        Unfortunatly, the requested page is not found!
+      </h5>
+    </ng-container>
+    <ng-container *ngIf="errortype.match('server-error')">
+      <img
+        src="https://www.flaticon.com/svg/static/icons/svg/752/752755.svg"
+        width="200px"
+        height="auto"
+        alt=""
+      />
+      <h5
+        *ngIf="error?.message == undefined"
+        class="text-info"
+        style="font-weight: 400"
+      >
+        Internal Server Error!
+      </h5>
+      <h5 class="text-info" style="font-weight: 400">
+        {{ error?.message }}
+      </h5>
+      <p
+        *ngIf="error.details"
+        style="
+          text-align: left;
+          font-size: small;
+          background-color: whitesmoke;
+          padding: 10px;
+        "
+      >
+        {{ error?.details }}
+      </p>
+    </ng-container>
+    <button class="btn btn-outline-info btn-sm mt-2" [routerLink]="['/']">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i>
+      Go back to home!
+    </button>
+  </div>
+</div>

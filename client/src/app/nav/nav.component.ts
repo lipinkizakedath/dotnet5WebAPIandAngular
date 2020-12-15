@@ -24,13 +24,10 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {}
 
   login(formValue: NgForm) {
-    this.accountService.login(formValue).subscribe(
-      (response) => {
-        this.router.navigate(['/members']);
-        this.toastr.success('Login successfull!');
-      },
-      (error) => this.toastr.error(error.error)
-    );
+    this.accountService.login(formValue).subscribe((response) => {
+      this.router.navigate(['/members']);
+      this.toastr.success('Login successfull!');
+    });
   }
 
   logout() {

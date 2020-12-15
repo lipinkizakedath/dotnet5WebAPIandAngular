@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     this.registerMode = !this.registerMode;
   }
 
-  // Cancel register form 
+  // Cancel register form
   cancelRegister(event: boolean) {
     this.registerMode = event;
   }
