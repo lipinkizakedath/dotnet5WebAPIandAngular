@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.getUsers();
+    // this.getUsers();
   }
 
   register(event: any) {
@@ -30,12 +30,12 @@ export class HomeComponent implements OnInit {
     this.registerMode = event;
   }
 
-  getUsers() {
-    this.http.get(this.baseUrl + 'users').subscribe(
-      (users) => {
-        this.users = users;
-      },
-      (error) => console.log(error)
-    );
-  }
+  // getUsers() {
+  //   this.http.get(this.baseUrl + 'users').subscribe(
+  //     (users) => {
+  //       this.users = users;
+  //     },
+  //     (error) => console.log(error)
+  //   );
+  // }
 }
