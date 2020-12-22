@@ -13,9 +13,10 @@ import { MembersService } from 'src/app/_services/members.service';
   styleUrls: ['./member-edit.component.css'],
 })
 export class MemberEditComponent implements OnInit {
-
   // this property prevents from unwanted closing of the current tab or changing the url without saving the changes
-  @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
+  @HostListener('window:beforeunload', ['$event']) unloadNotification(
+    $event: any
+  ) {
     if (this.editForm.dirty) {
       $event.returnValue = true;
     }
@@ -45,8 +46,9 @@ export class MemberEditComponent implements OnInit {
   }
 
   updateMember() {
-    console.log(this.member);
-    this.toastr.success('Profile updated successfully!');
-    this.editForm.reset(this.member);
+    this.memberService.updateMember(this.member).subscribe(() => {
+      this.toastr.success('Profile updated successfully!');
+      this.editForm.reset(this.member);
+    });
   }
 }
