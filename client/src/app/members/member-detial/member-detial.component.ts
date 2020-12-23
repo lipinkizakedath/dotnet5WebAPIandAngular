@@ -38,7 +38,7 @@ export class MemberDetialComponent implements OnInit {
     ];
   }
 
-  getImages() {
+  getImages(): NgxGalleryImage[] {
     const imageUrls = [];
     for (const photo of this.member.photos) {
       imageUrls.push({
@@ -47,8 +47,8 @@ export class MemberDetialComponent implements OnInit {
         big: photo?.url,
       });
 
-      return imageUrls;
     }
+    return imageUrls;
   }
 
   loadMember() {

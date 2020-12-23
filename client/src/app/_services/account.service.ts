@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AccountService {
   // base url for the api calls
-  baseUrl = environment.apuUrl;
+  baseUrl = environment.apiUrl;
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
 

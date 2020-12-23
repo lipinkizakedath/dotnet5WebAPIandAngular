@@ -1,0 +1,91 @@
+<div class="row">
+    <div class="col-3" *ngFor="let photo of member?.photos">
+        <img src="{{ photo.url }}" alt="{{ member.knownAs }}" class="img-thumbnail p-1" width="500px" height="500px" />
+        <div class="text-center mt-1">
+            <button class="btn btn-info btn-sm mr-1">Main</button>
+            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-3">
+
+    <div class="col-md-12">
+        <div ng2FileDrop [ngClass]="{ 'nv-file-over': hasBaseDropzoneOver }" (fileOver)="fileOverBase($event)"
+            [uploader]="uploader" class="card bg-faded p-3 text-center mb-3 my-drop-zone">
+            <i class="fa fa-upload fa-3x"></i>
+            <h6>Upload or drag and drop the images here</h6>
+
+            <div class="text-center">
+                <input type="file" id="exampleFormControlFile1" ng2FileSelect [uploader]="uploader" multiple
+                    style="border: 1px dotted rgb(154, 139, 139); background-color: #f1f1f1; padding: 3px; border-radius: 2px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="uploader?.queue?.length">
+
+        <div class="col-md-12" style="margin-bottom: 40px">
+            <p class="lead">Queue length {{ uploader?.queue?.length }}</p>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th width="50%">Name</th>
+                        <th>Size</th>
+                        <th>Progress</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of uploader.queue">
+                        <td>
+                            <p class="lead">{{ item?.file?.name }}</p>
+                        </td>
+                        <td *ngIf="uploader.options.isHTML5" nowrap>
+                            {{ item?.file?.size / 1024 / 1024 | number: ".2" }} MB
+                        </td>
+                        <td *ngIf="uploader.options.isHTML5">
+                            <div class="progress" style="margin-bottom: 0">
+                                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [ngStyle]="{ width: item.progress + '%' }">
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <button type="button" class="btn btn-sm btn-success mr-1" (click)="item.upload()"
+                                [disabled]="item.isReady || item.isUploading || item.isSuccess"> <i class="fa fa-upload"></i></button>
+                            <button type="button" class="btn btn-sm btn-warning mr-1" (click)="item.cancel()"
+                                [disabled]="!item.isUploading"><i class="fa fa-ban"></i>
+                            </button>
+                            <button type="button" class="btn btn-sm btn-danger" (click)="item.remove()"><i class="fa fa-trash"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div>
+                <div>
+                    <p class="lead">Queue progress</p>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [ngStyle]="{ width: uploader.progress + '%' }">
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-group mt-3 pull-right">
+                    <button type="button" class="btn btn-success btn-sm mr-1" (click)="uploader.uploadAll()"
+                        [disabled]="!uploader.getNotUploadedItems().length">
+                        <span class="glyphicon glyphicon-upload"></span> Upload all
+                    </button>
+                    <button type="button" class="btn btn-warning btn-sm mr-1" (click)="uploader.cancelAll()"
+                        [disabled]="!uploader.isUploading">
+                        <span class="glyphicon glyphicon-ban-circle"></span> Cancel all
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm mr-1" (click)="uploader.clearQueue()"
+                        [disabled]="!uploader.queue.length">
+                        <span class="glyphicon glyphicon-trash"></span> Remove all
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
