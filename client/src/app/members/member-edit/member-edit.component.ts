@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_model/Member';
+import { Photo } from 'src/app/_model/Photo';
 import { User } from 'src/app/_model/User';
 import { AccountService } from 'src/app/_services/account.service';
 import { MembersService } from 'src/app/_services/members.service';
@@ -51,4 +52,5 @@ export class MemberEditComponent implements OnInit {
       this.editForm.reset(this.member);
     });
   }
+
 }

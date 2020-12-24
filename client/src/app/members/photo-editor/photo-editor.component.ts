@@ -1,9 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FileUploader } from 'ng2-file-upload';
+import { ToastrService } from 'ngx-toastr';
 import { take } from 'rxjs/operators';
 import { Member } from 'src/app/_model/Member';
+import { Photo } from 'src/app/_model/Photo';
 import { User } from 'src/app/_model/User';
 import { AccountService } from 'src/app/_services/account.service';
+import { MembersService } from 'src/app/_services/members.service';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -12,14 +15,17 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./photo-editor.component.css'],
 })
 export class PhotoEditorComponent implements OnInit {
-
   @Input() member: Member;
   uploader: FileUploader;
   hasBaseDropzoneOver = false;
   baserUrl = environment.apiUrl;
   user: User;
 
-  constructor(private accountService: AccountService) {
+  constructor(
+    private accountService: AccountService,
+    private memberService: MembersService,
+    private toastr: ToastrService
+  ) {
     this.accountService.currentUser$
       .pipe(take(1))
       .subscribe((user) => (this.user = user));
@@ -31,6 +37,24 @@ export class PhotoEditorComponent implements OnInit {
 
   fileOverBase(e: any) {
     this.hasBaseDropzoneOver = e;
+  }
+
+  setMainPhoto(photo: Photo) {
+    this.memberService.updateMainPhoto(photo.id).subscribe(() => {
+      this.user.photoUrl = photo.url;
+      this.accountService.setCurrentUser(this.user);
+      this.member.photoUrl = photo.url;
+
+      this.member.photos.forEach((p) => {
+        if (p.isMain) {
+          p.isMain = false;
+        }
+        if (p.id === photo.id) {
+          p.isMain = true;
+        }
+      });
+      this.toastr.success('Photo updated as main!');
+    });
   }
 
   initializeUploader() {

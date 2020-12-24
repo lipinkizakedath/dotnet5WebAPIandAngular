@@ -1,6 +1,7 @@
-<div class="row" *ngIf="member">
+<div class="row mb-5" *ngIf="member">
   <div class="col-4">
     <div class="card">
+      <h1 class="text-center mt-4 lead" style="font-size: 40px;"><strong>{{ member.knownAs}}</strong>'s profile</h1>
       <img
         class="card-img-top img-thumbnail"
         [src]="member.photoUrl || './assets/user.png'"
