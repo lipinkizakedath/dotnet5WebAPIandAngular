@@ -1,18 +1,69 @@
 <div class="card p-5">
-  <form #registerFrom="ngForm" (ngSubmit)="register(registerFrom)" class="">
+  <form
+    [formGroup]="registrationForm"
+    (ngSubmit)="register(registrationForm.value)"
+    class=""
+  >
     <h5 class="text-center text-dark p-2">Register yourself!</h5>
-    <hr>
+    <hr />
     <div class="form-group">
-      <input type="text" class="form-control" ngModel name="username" />
+      <label class="control-label" style="margin-right: 10px">I am a:</label>
+      <label class="radio-inline">
+        <input type="radio" value="male" formControlName="gender" />
+        Male
+      </label>
+      <label class="radio-inline">
+        <input
+          type="radio"
+          value="female"
+          formControlName="gender"
+          class="ml-2"
+        />
+        Female
+      </label>
     </div>
-    <div class="form-group">
-      <input type="password" class="form-control" ngModel name="password" />
-    </div>
+
+    <app-text-input
+      [formControl]="registrationForm.controls['username']"
+      [label]="'Username'"
+    ></app-text-input>
+    <app-text-input
+      [formControl]="registrationForm.controls['knownAs']"
+      [label]="'Known As'"
+    ></app-text-input>
+    <app-date-input
+      [formControl]="registrationForm.controls['dateOfBirth']"
+      [label]="'Date of birth'"
+      [maxDate]="maxDate"
+    ></app-date-input>
+    <app-text-input
+      [formControl]="registrationForm.controls['city']"
+      [label]="'City'"
+    ></app-text-input>
+    <app-text-input
+      [formControl]="registrationForm.controls['country']"
+      [label]="'Country'"
+    ></app-text-input>
+    <app-text-input
+      [formControl]="registrationForm.controls['password']"
+      [label]="'Password'"
+    ></app-text-input>
+    <app-text-input
+      [formControl]="registrationForm.controls['confirmPassword']"
+      [label]="'Confirm Password'"
+    ></app-text-input>
     <div class="form-group text-center">
-      <button class="btn btn-primary mr-2" type="submit">Register</button>
+      <button
+        class="btn btn-primary mr-2"
+        type="submit"
+        [disabled]="registrationForm.invalid"
+      >
+        Register
+      </button>
       <button class="btn btn-default" type="button" (click)="cancel()">
         Cancel
       </button>
     </div>
   </form>
+  {{ registrationForm.value | json }}
 </div>
