@@ -49,7 +49,7 @@
         style="height: 50px; border-radius: 50px"
       />
       <a class="drowndown-toggle text-light lead" dropdownToggle
-        >Weclome {{ user.username | titlecase }}</a
+        >Weclome {{ user.knownAs | titlecase }}</a
       >
       <div class="dropdown-menu mt-3" *dropdownMenu>
         <a class="dropdown-item" [routerLink]="['/member/edit']"

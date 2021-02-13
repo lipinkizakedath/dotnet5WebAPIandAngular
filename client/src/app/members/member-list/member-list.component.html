@@ -1,3 +1,82 @@
+<div class="text-center alert mb-0">
+  <h5 class="mt-1">
+    Total {{ pagination?.totalItems }} matched found for you!
+  </h5>
+</div>
+
+<div class="row bg-light mb-3 align-items-center">
+  <div class="row m-auto">
+    <form
+      #form="ngForm"
+      (ngSubmit)="loadMembers()"
+      class="form-inline"
+      novalidate
+    >
+      <div class="col-md-3 col-sm-3 mt-2">
+        <label class="sr-only" for="inlineFormInputGroup">Age</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Age from</div>
+          </div>
+          <input
+            [(ngModel)]="userParams.minAge"
+            type="number"
+            name="minAge"
+            class="form-control"
+            id="inlineFormInputGroup"
+            placeholder="Minimum"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-3 mt-2">
+        <label class="sr-only" for="inlineFormInputGroup">Age</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Age to</div>
+          </div>
+          <input
+            [(ngModel)]="userParams.maxAge"
+            type="number"
+            name="maxAge"
+            class="form-control"
+            id="inlineFormInputGroup"
+            placeholder="Maximum"
+          />
+        </div>
+      </div>
+
+      <div class="col-md-3 col-sm-3 mt-2">
+        <label class="sr-only" for="inlineFormInputGroup">Gender</label>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">Gender</div>
+          </div>
+          <select
+            [(ngModel)]="userParams.gender"
+            class="form-control"
+            id="gender"
+            name="gender"
+          >
+            <option *ngFor="let gender of genderList" [value]="gender.value">
+              {{ gender.display }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="btn-group col-md-3 col-sm-6">
+        <button type="submit" class="btn btn-primary">
+          <i class="fa fa-filter" aria-hidden="true"></i> Apply Filters
+        </button>
+        <button (click)="resetFilters()" type="button" class="btn btn-info">
+          Reset Filter
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
 <div class="row">
   <div class="col-2 mb-2" *ngFor="let member of members">
     <app-member-card [member]="member"></app-member-card>
