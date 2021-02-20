@@ -1,7 +1,10 @@
 <div class="row mb-5" *ngIf="member">
   <div class="col-4">
     <div class="card">
-      <h1 class="text-center mt-4 lead" style="font-size: 40px;"><strong>{{ member.knownAs}}</strong>'s profile</h1>
+      <h1 class="text-center mt-4 lead" style="font-size: 40px">
+        <strong>{{ member.knownAs }}</strong
+        >'s profile
+      </h1>
       <img
         class="card-img-top img-thumbnail"
         [src]="member.photoUrl || './assets/user.png'"
@@ -18,11 +21,11 @@
         </div>
         <div>
           <strong>Last Active:</strong>
-          <p>{{ member.lastActive }}, {{ member.city }}</p>
+          <p>{{ member.lastActive | timeago }}, {{ member.city }}</p>
         </div>
         <div>
           <strong>Member since:</strong>
-          <p>{{ member.created }}, {{ member.city }}</p>
+          <p>{{ member.created | date: "dd MMM yy" }}, {{ member.city }}</p>
         </div>
       </div>
       <div class="card-footer">

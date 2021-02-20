@@ -15,10 +15,42 @@ import { AccountService } from './account.service';
 export class MembersService {
   members: Member[] = [];
   baseUrl = environment.apiUrl;
+  memberCash = new Map();
+  user: User;
+  userParams: UserParams;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private accountService: AccountService
+  ) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe((user) => {
+      this.user = user;
+      this.userParams = new UserParams(user);
+    });
+  }
+
+  getUserParams() {
+    return this.userParams;
+  }
+
+  setUserParams(params: UserParams) {
+    this.userParams = params;
+    return this.userParams;
+  }
+
+  resetUserParams() {
+    this.userParams = new UserParams(this.user);
+    return this.userParams;
+  }
 
   getMembers(userParams: UserParams) {
+    var response = this.memberCash.get(Object.values(userParams).join('-'));
+
+    if (response) {
+      console.log(response);
+      return of(response);
+    }
+
     let params = this.getPaginationHeader(
       userParams.pageNumber,
       userParams.pageSize
@@ -27,8 +59,17 @@ export class MembersService {
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
     params = params.append('gender', userParams.gender);
+    params = params.append('orderBy', userParams.orderBy);
 
-    return this.getPaginatedResults<Member[]>(this.baseUrl + 'users', params);
+    return this.getPaginatedResults<Member[]>(
+      this.baseUrl + 'users',
+      params
+    ).pipe(
+      map((response) => {
+        this.memberCash.set(Object.values(userParams).join('-'), response);
+        return response;
+      })
+    );
   }
 
   // get paginated results - generic method
@@ -57,10 +98,16 @@ export class MembersService {
   }
 
   getMember(username: string) {
-    const member = this.members.find((user) => user.username === username);
-    if (member !== undefined) {
+    // fetcing from cache results
+    const member = [...this.memberCash.values()]
+      .reduce((arr, elem) => arr.concat(elem.result), [])
+      .find((member: Member) => member.username === username);
+
+    if (member) {
       return of(member);
     }
+
+    // fetching from server if not present in cache
     return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 

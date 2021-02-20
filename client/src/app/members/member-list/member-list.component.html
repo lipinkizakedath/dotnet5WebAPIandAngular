@@ -4,7 +4,7 @@
   </h5>
 </div>
 
-<div class="row bg-light mb-3 align-items-center">
+<div class="bg-light mb-3 align-items-center">
   <div class="row m-auto">
     <form
       #form="ngForm"
@@ -12,7 +12,7 @@
       class="form-inline"
       novalidate
     >
-      <div class="col-md-3 col-sm-3 mt-2">
+      <div class="col-md-2 col-sm-3 mt-2">
         <label class="sr-only" for="inlineFormInputGroup">Age</label>
         <div class="input-group mb-2">
           <div class="input-group-prepend">
@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div class="col-md-3 col-sm-3 mt-2">
+      <div class="col-md-2 col-sm-3 mt-2">
         <label class="sr-only" for="inlineFormInputGroup">Age</label>
         <div class="input-group mb-2">
           <div class="input-group-prepend">
@@ -66,11 +66,31 @@
       </div>
 
       <div class="btn-group col-md-3 col-sm-6">
-        <button type="submit" class="btn btn-primary">
-          <i class="fa fa-filter" aria-hidden="true"></i> Apply Filters
+        <button type="submit" class="btn mr-1">
+          <i class="fa fa-filter"></i> Apply
         </button>
-        <button (click)="resetFilters()" type="button" class="btn btn-info">
-          Reset Filter
+        <button (click)="resetFilters()" type="button" class="btn mr-1">
+          <i class="fa fa-refresh"></i> Reset
+        </button>
+        <button
+          class="btn mr-1"
+          type="button"
+          name="orderBy"
+          (click)="loadMembers()"
+          btnRadio="lastActive"
+          [(ngModel)]="userParams.orderBy"
+        >
+          <i class="fa fa-clock-o"></i> Last Active
+        </button>
+        <button
+          class="btn"
+          type="button"
+          name="orderBy"
+          (click)="loadMembers()"
+          btnRadio="created"
+          [(ngModel)]="userParams.orderBy"
+        >
+          <i class="fa fa-user-o"></i> New Members
         </button>
       </div>
     </form>
