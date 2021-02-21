@@ -15,7 +15,7 @@ import { AccountService } from './account.service';
 export class MembersService {
   members: Member[] = [];
   baseUrl = environment.apiUrl;
-  memberCash = new Map();
+  memberCache = new Map();
   user: User;
   userParams: UserParams;
 
@@ -44,10 +44,9 @@ export class MembersService {
   }
 
   getMembers(userParams: UserParams) {
-    var response = this.memberCash.get(Object.values(userParams).join('-'));
+    var response = this.memberCache.get(Object.values(userParams).join('-'));
 
     if (response) {
-      console.log(response);
       return of(response);
     }
 
@@ -66,7 +65,7 @@ export class MembersService {
       params
     ).pipe(
       map((response) => {
-        this.memberCash.set(Object.values(userParams).join('-'), response);
+        this.memberCache.set(Object.values(userParams).join('-'), response);
         return response;
       })
     );
@@ -99,7 +98,7 @@ export class MembersService {
 
   getMember(username: string) {
     // fetcing from cache results
-    const member = [...this.memberCash.values()]
+    const member = [...this.memberCache.values()]
       .reduce((arr, elem) => arr.concat(elem.result), [])
       .find((member: Member) => member.username === username);
 
