@@ -29,6 +29,16 @@ export class MembersService {
     });
   }
 
+  addLikes(username: string) {
+    return this.http.post(this.baseUrl + 'likes/' + username, {});
+  }
+
+  getLikes(predicate: string) {
+    return this.http.get<Partial<Member[]>>(
+      this.baseUrl + 'likes?predicate=' + predicate
+    );
+  }
+
   getUserParams() {
     return this.userParams;
   }

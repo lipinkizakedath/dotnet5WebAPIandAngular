@@ -1,1 +1,35 @@
-<p>lists works!</p>
+<div class="text-center alert mb-0">
+  <h5 class="mt-1">
+    {{ predicate == "liked" ? "Members I Liked" : "Members Who Like Me" }}
+  </h5>
+</div>
+
+<div class="bg-light mb-3 align-items-center">
+  <div class="btn-group">
+    <button
+      class="btn btn-info"
+      name="predicate"
+      btnRadio="liked"
+      [(ngModel)]="predicate"
+      (click)="loadLikes()"
+    >
+      Liked Members
+    </button>
+    <button
+      class="btn btn-warning"
+      name="predicate"
+      btnRadio="likedBy"
+      [(ngModel)]="predicate"
+      (click)="loadLikes()"
+    >
+      Members Liked Me!
+    </button>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-2 mb-2" *ngFor="let member of members">
+    <!-- <h2 *ngIf="members.length == 0">No results found!</h2> -->
+    <app-member-card [member]="member"></app-member-card>
+  </div>
+</div>

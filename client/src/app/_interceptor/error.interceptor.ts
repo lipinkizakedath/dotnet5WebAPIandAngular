@@ -10,6 +10,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { isString } from 'ngx-bootstrap/chronos/utils/type-checks';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -24,16 +25,21 @@ export class ErrorInterceptor implements HttpInterceptor {
         if (error) {
           switch (error.status) {
             case 400:
+              // console.log(error);
               if (error.error.errors) {
+                // initialising an empty array to store errors
                 const modelStateError = [];
+                // looping over each item  and pushing to the array
                 for (const key in error.error.errors) {
                   if (error.error.errors[key]) {
                     modelStateError.push(error.error.errors[key]);
-                  } else {
-                    this.tostr.error(error.statsText, error.status);
                   }
+                  throw modelStateError.flat();
                 }
-                throw modelStateError.flat();
+              } else if (typeof error.error === 'object') {
+                this.tostr.error(error.statsText, error.status);
+              } else {
+                this.tostr.error(error.error, error.status);
               }
               break;
             case 401:
